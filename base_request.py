@@ -23,6 +23,11 @@ class BaseRequest:
                     response = requests.post(url, json=payload)
                 else:
                     response = requests.post(url, data=payload)
+            elif request_type == 'PUT':
+                if is_json:
+                    response = requests.put(url, json=payload)
+                else:
+                    response = requests.put(url, data=payload)
             else:
                 response = requests.delete(url)
 
@@ -57,10 +62,20 @@ class BaseRequest:
             url, 'POST', payload=body, is_json=is_json,
             expected_error=expected_error
         )
-        return response.json()['message']
+        return response.json()#['message']
 
+    def put(
+            self, endpoint, endpoint_id, body, is_json=False,
+            expected_error=False
+    ):
+        url = f'{self.base_url}/{endpoint}/{endpoint_id}'
+        response = self._request(
+            url, 'PUT', payload=body, is_json=is_json,
+            expected_error=expected_error
+        )
+        return response.json()#['message']
     def delete(self, endpoint, endpoint_id):
         url = f'{self.base_url}/{endpoint}/{endpoint_id}'
         response = self._request(url, 'DELETE')
-        return response.json()['message']
+        return response.json()#['message']
 
