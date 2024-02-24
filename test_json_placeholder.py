@@ -31,19 +31,19 @@ def get_resources():
     return ids
 
 
-pytest.fixture(scope="module")
+
 @pytest.mark.parametrize("id", get_resources(), scope="module")
 def test_update_all_resources(id):
-    base_request = BaseRequest(BASE_URL_PETSTORE)
-    body = {
-        "id":"101",
-        "title": "foo",
-        "body": "bar",
-        "userId": "1"
-    }
+     base_request = BaseRequest(BASE_URL_PETSTORE)
+     body = {
+         "id":"101",
+         "title": "foo",
+         "body": "bar",
+         "userId": "1"
+     }
 
-    result = base_request.put(f'posts/{id}', "", body, expected_error=False)
-    assert result is not None
+     result = base_request.put(f'posts/{id}', "", body, expected_error=False)
+     assert result is not None
 
 def get_two_random_resources():
     base_request = BaseRequest(BASE_URL_PETSTORE)
@@ -64,5 +64,7 @@ def test_get_nested_resources():
     base_request = BaseRequest(BASE_URL_PETSTORE)
     endpoint = 'posts/1/comments'
     result = base_request.get(endpoint, "", expected_error=False)
-    assert result is not None
+    emails = [item["email"] for item in result]
+    assert "Eliseo@gardner.biz" in emails
+    #assert result is not None
 

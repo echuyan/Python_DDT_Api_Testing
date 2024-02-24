@@ -5,21 +5,18 @@ from base_request import BaseRequest
 BASE_URL_PETSTORE = 'https://dog.ceo/api'
 NON_EXISTENT_BREED = 'nonexistentbreed'
 
-pytest.fixture(scope="module")
 def test_get_all_breeds():
     base_request = BaseRequest(BASE_URL_PETSTORE)
     breeds_list = base_request.get('breeds/list/all', "", expected_error=False)
     assert breeds_list is not None
 
 
-pytest.fixture(scope="module")
 def test_get_random_image():
     base_request = BaseRequest(BASE_URL_PETSTORE)
     image_json = base_request.get('breeds/image/random', "", expected_error=False)
     assert image_json['status'] == "success"
 
 
-pytest.fixture(scope="module")
 @pytest.mark.parametrize("number, expected", [(3, 3), (52, 50)])
 def test_get_many_random_images(number,expected):
     base_request = BaseRequest(BASE_URL_PETSTORE)
@@ -28,7 +25,6 @@ def test_get_many_random_images(number,expected):
     assert len(image_json['message']) == expected
 
 
-pytest.fixture(scope="module")
 @pytest.mark.parametrize("breed, expected", [('hound', 7), ('germanshepherd', 0)])
 def test_get_sub_breeds(breed,expected):
     base_request = BaseRequest(BASE_URL_PETSTORE)
@@ -36,7 +32,6 @@ def test_get_sub_breeds(breed,expected):
     image_json = base_request.get(endpoint, "", expected_error=False)
     assert len(image_json['message']) == expected
 
-pytest.fixture(scope="package")
 def test_get_non_existent_breed():
     base_request = BaseRequest(BASE_URL_PETSTORE)
     endpoint = f'breed/{NON_EXISTENT_BREED}/images/random'
